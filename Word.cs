@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrdlisteFilter
+﻿namespace OrdlisteFilter.Functions
 {
     class Word
     {
-        public string Ord { get; set; }
-        public WordClass WordClass;
+        public string Value { get; set; }
+        public WordType WordType { get; set; }
 
-        public Word(string word, WordClass wordClass)
+        public Word(string value, WordType wordType)
         {
-            Ord = word;
-            WordClass = wordClass;
-
+            Value = value;
+            WordType = wordType;
         }
     }
 }

@@ -8,79 +8,50 @@ namespace OrdlisteFilter.Functions
 {
     class WordList
     {
-        public string FilePath { get; set; }
-        public List<WordList> wordList = new List<WordList>();
+        public IEnumerable<WordType> WordTypes => _wordTypes.ToArray();
 
-    public WordList(string ordlisteTxt)
-        {
-            FilePath = ordlisteTxt;
-        }
+        private List<WordType> _wordTypes;
+        private List<Word> _words;
 
-        public void WordClasses(string useInput)
+        public WordList(string fileName)
         {
-            //AddWordsToList();
-            while (true)
+            _wordTypes = new List<WordType>();
+            _words = new List<Word>();
+            var i = 0;
+
+            foreach (var line in File.ReadLines(fileName, Encoding.UTF8))
             {
-                GetWordClasses();
 
-                useInput = Console.ReadLine();
-            }
-        }
+                i++;
+                if (i % 5000 == 0) Console.Write(".");
+                var parts = line.Split('\t', ' ');
+                var wordStr = parts[2]; // word til word class
+                var wordTypeStr = parts[3]; // world class category
+                var wordType = FindOrCreateWordType(wordTypeStr);
+                var word = new Word(wordStr, wordType);
+                if (!wordTypeStr.Contains(word.Value) && !word.Value.Contains('+'))
+                {
+                    //_words.Add(word);
+                    wordType.Add(word);
+                }
 
-        public IEnumerable<WordClass> GetWordClasses()
-        {
-            List<WordClass> wordClasses = new List<WordClass>();
-
-            foreach (var line in File.ReadLines(FilePath, Encoding.UTF8))
-            {
-                var parts = line.Split('\t');
-                var word = parts[2]; // word til word class
-
-                var isWordClass = parts[3]; // world class category
-
-                var acctualWordClass = isWordClass.Split(' ');
-                wordList.Add(new WordList(word));
             }
 
-            Console.WriteLine(wordList[34]);
-
-            Console.WriteLine(wordClasses.Count);
-            int count = 0;
-            foreach (var word in wordList) count++;
-            Console.WriteLine(count.ToString());
-            return wordClasses;
+            Console.Clear();
         }
 
-        //public void FindWordInCategory()
-        //{
-        //    List<string> ordKlasser = new List<string>();
-        //    foreach (var word in wordList)
-        //    {
-        //        if (!ordKlasser.Contains(word.) && !word.Ord.Contains('+'))
-        //        {
-        //            ordKlasser.Add(word);
-        //        }
-        //    }
+        private WordType FindOrCreateWordType(string wordTypeStr)
+        {
+            var wordType = _wordTypes.SingleOrDefault(wt => wt.Value == wordTypeStr);
+            if (wordType == null)
+            {
+                wordType = new WordType(wordTypeStr);
+                _wordTypes.Add(wordType);
+            }
 
-        //    ordKlasser.ForEach(Console.WriteLine);
+            return wordType;
+        }
 
-        //    var currentCategory = "";
-
-        //    foreach (var ord in ordKlasser)
-        //    {
-        //        currentCategory = ord;
-        //        var counter = 0;
-        //        var wordInCategory = wordList.FindAll(word => word.Ord == ord);
-        //        foreach (var word in wordInCategory)
-        //        {
-        //            counter++;
-        //        }
-        //        System.Console.WriteLine("Det er såååå mange " + currentCategory + " " + counter + " i listen.");
-        //        System.Console.WriteLine();
-        //    }
-
-        //    Console.WriteLine();
-        //}
 
     }
 }
