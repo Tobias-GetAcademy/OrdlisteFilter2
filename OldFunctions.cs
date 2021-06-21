@@ -18,11 +18,11 @@
 //        //{
 //        //    class Substantiv
 //        //    {
-//        //        public string Word { get; set; }
+//        //        public string Ord { get; set; }
 
 //        //        public Substantiv(string word)
 //        //        {
-//        //            Word = word;
+//        //            Ord = word;
 //        //        }
 //        //    }
 //        //}

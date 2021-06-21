@@ -9,12 +9,18 @@ namespace OrdlisteFilter
     class WordClass
     {
         public string Category { get; set; }
-        public string Word { get; set; }
+        public List<Word> Words;
 
-        public WordClass(string category, string word)
+        public WordClass(string category, List<Word> ord)
         {
             Category = category;
-            Word = word;
+            Words = ord;
+        }
+
+        public string GetStatisticsString()
+        {
+            Console.WriteLine(Category.Count().ToString());
+            return Category.Count().ToString();
         }
     }
 }

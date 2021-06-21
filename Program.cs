@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -10,9 +11,12 @@ namespace OrdlisteFilter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Type:\n subst = substantiv,\n adv = adverb,\n verb = verb,\n adj = adjektiv,\n det = determinativ,\n exit");
-            var useInput = Console.ReadLine();
-            Filter.WordClasses(useInput);
+            var wordList = new WordList("ordliste.txt");
+            IEnumerable<WordClass> wordClasses = wordList.GetWordClasses();
+            foreach (var wordClass in wordClasses) // hvis du har 6 ordklasser, så går den igjennom hver av dem og skriver ut statistikken
+            {
+                Console.WriteLine(wordClass.GetStatisticsString() + " hei");
+            }
         }
     }
 }
